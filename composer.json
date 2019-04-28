@@ -13,7 +13,8 @@
 
     "require": {
         "php": "^7.1.3",
-        "tymon/jwt-auth": "1.0.*@dev"
+        "tymon/jwt-auth": "1.0.*@dev",
+        "kosmosx/core": "1.0.*@dev"
     },
     "require-dev": {},
 

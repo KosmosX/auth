@@ -2,7 +2,7 @@
 
 	namespace Kosmosx\Auth;
 
-	use Kosmosx\Framework\Core\Providers\Base\BaseServiceProvider;
+	use Kosmosx\Framework\Providers\BaseServiceProvider;
 	use Gate;
 
 	class AuthServiceProvider extends BaseServiceProvider
@@ -40,7 +40,7 @@
 		 */
 		public function register()
 		{
-			$this->registerConfigs('auth', 'jwt');
+			$this->registerConfigs('auth', 'jwt', 'permission');
 
 			$this->registerAlias(array(
 				'JWTAuth' => \Tymon\JWTAuth\Facades\JWTAuth::class,
