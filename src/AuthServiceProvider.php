@@ -2,7 +2,7 @@
 
 	namespace Kosmosx\Auth;
 
-	use Kosmosx\Core\Providers\Base\BaseServiceProvider;
+	use Kosmosx\Framework\Core\Providers\Base\BaseServiceProvider;
 	use Gate;
 
 	class AuthServiceProvider extends BaseServiceProvider

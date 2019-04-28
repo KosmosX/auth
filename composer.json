@@ -19,7 +19,7 @@
 
     "autoload": {
         "psr-4": {
-            "Kosmosx\\Auth\\": "src/auth"
+            "Kosmosx\\Auth\\": "src/"
         }
     },
 
