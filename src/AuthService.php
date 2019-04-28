@@ -8,7 +8,7 @@
 
 	namespace Kosmosx\Auth;
 
-	use Kosmosx\Framework\Core\Service;
+	use Kosmosx\Support\Service;
 	use Tymon\JWTAuth\JWTAuth;
 	use Illuminate\Contracts\Auth\Guard;
 
