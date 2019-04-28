@@ -3,7 +3,7 @@
     "description": "Auth service for Laravel / Lumen framework.",
     "keywords": ["framework", "laravel", "lumen", "auth", "jwt", "api"],
     "license": "MIT",
-    "type": "package laravel",
+    "type": "package",
     "authors": [
         {
             "name": "Fabrizio Cafolla",
