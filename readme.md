@@ -1,5 +1,5 @@
 ## KosmosX Auth
-![](https://img.shields.io/badge/version-0.0.1--beta-green.svg)
+![](https://img.shields.io/badge/version-1.0.0-green.svg) ![](https://img.shields.io/badge/laravel->=5.7-blue.svg) ![](https://img.shields.io/badge/lumen->=5.7-blue.svg)
 
 ### Installation
     
@@ -55,5 +55,15 @@
 **Add to .env file (Or change config/auth.php key of array 'providers')**
 
     AUTH_PROVIDERS=Tymon\JWTAuth\Providers\LumenServiceProvider
+    
+#### Example
+    
+    AuthService::guard();  //return Illuminate/Guard
+    
+    AuthService::getUser();  //return HttpException or Auth user
+    
+    AuthService::refresh();  //return new token of Auth user
+    
+    and other functions
     
   
