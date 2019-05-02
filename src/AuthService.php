@@ -8,11 +8,11 @@
 
 	namespace Kosmosx\Auth;
 
-	use Kosmosx\Support\Service;
+	use Symfony\Component\HttpKernel\Exception\HttpException;
 	use Tymon\JWTAuth\JWTAuth;
 	use Illuminate\Contracts\Auth\Guard;
 
-	class AuthService extends Service
+	class AuthService
 	{
 		/**
 		 * @var JWTAuth
@@ -50,15 +50,15 @@
 		{
 			try {
 				if (!$user = $this->jwt->parseToken()->authenticate())
-					return $this->response()->errorException('Error Exception');
+					throw new HttpException(400, 'Error Exception');
 			} catch (\Tymon\JWTAuth\Exceptions\TokenBlacklistedException $e) {
-				return $this->response()->errorException('The token has been blacklisted');
+				throw new HttpException(400, 'The token has been blacklisted');
 			} catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-				return $this->response()->errorException('Token expired');
+				throw new HttpException(400, 'Token expired');
 			} catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-				return $this->response()->errorException('Token invalid');
+				throw new HttpException(400, 'Token invalid');
 			} catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-				return $this->response()->errorException('Token absent');
+				throw new HttpException(400, 'Token absent');
 			}
 		}
 
@@ -72,7 +72,7 @@
 		{
 			$user = $this->guard()->user();
 			if (!$user)
-				return $this->fail(404, array(), "User not found");
+				return null;
 
 			return $user;
 		}
@@ -95,12 +95,10 @@
 		 *
 		 * @return \Core\Services\ServiceStatus|object
 		 */
-		public function invalidate($force = false)
+		public function invalidate($force = false): void
 		{
 			$this->tryAuthenticatedUser();
 			$this->jwt->parseToken()->invalidate($force);
-
-			return $this->success(202, array(), 'The token has been invalidated');
 		}
 
 		/**
@@ -111,10 +109,10 @@
 		 *
 		 * @return \Core\Services\ServiceStatus|object
 		 */
-		public function refresh($force = false, $resetClaims = false)
+		public function refresh($force = false, $resetClaims = false): array
 		{
 			$token = $this->jwt->parseToken()->refresh($force, $resetClaims);
 
-			return $this->success(201, compact('token'), 'The token has been refreshed');
+			return compact('token');
 		}
 	}

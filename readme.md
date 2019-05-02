@@ -6,6 +6,7 @@
     composer require kosmosx/auth
     
     php artisan kosmosx:publish:auth //if will be use JWT
+    
 #### Laravel
     
 **Add provider in array 'providers' (config/app.php)**

@@ -3,7 +3,6 @@
 	namespace Kosmosx\Auth\Middleware;
 
 	use Closure;
-	use FactoryResponse;
 
 	class CorsMiddleware
 	{
@@ -26,7 +25,7 @@
 
 			//Return preflight response
 			if (true === $this->isPreflightRequest($request))
-				return FactoryResponse::success("OK", 200, $cors_headers);
+				return response("OK", 200, $cors_headers);
 
 			//Add CORS headers to response
 			$response = $next($request);

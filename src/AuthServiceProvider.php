@@ -2,10 +2,10 @@
 
 	namespace Kosmosx\Auth;
 
-	use Kosmosx\Core\Providers\BaseServiceProvider;
+	use Illuminate\Support\ServiceProvider;
 	use Gate;
 
-	class AuthServiceProvider extends BaseServiceProvider
+	class AuthServiceProvider extends ServiceProvider
 	{
 		public function boot()
 		{
@@ -40,21 +40,28 @@
 		 */
 		public function register()
 		{
-			$this->registerConfigs('auth', 'jwt', 'permission');
+			try {
+				$this->app->configure('auth');
+				$this->app->configure('jwt');
+				$this->app->configure('permission');
 
-			$this->registerAlias(array(
-				'JWTAuth' => \Tymon\JWTAuth\Facades\JWTAuth::class,
-				'JWTFactory' => \Tymon\JWTAuth\Facades\JWTFactory::class,
-				'AuthService' => \Kosmosx\Auth\AuthFacade::class,
-			));
+				$this->app->routeMiddleware(array(
+					'api.jwt' => \Kosmosx\Auth\Middleware\JwtMiddleware::class,
+					'api.auth' => \Kosmosx\Auth\Middleware\AuthenticateMiddleware::class
+				));
+			} catch (\Exception $e) {
 
-			$this->registerProviders(config('auth.service_providers')?:array());
+			}
+
+			class_alias(\Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
+			class_alias(\Tymon\JWTAuth\Facades\JWTFactory::class, 'JWTFactory');
+			class_alias(\Kosmosx\Auth\AuthFacade::class, 'AuthService');
+
+			if ($provider = config('auth.service_providers.jwt'))
+				$this->app->register($provider);
 
 			$this->app->bind('service.auth', 'Kosmosx\Auth\AuthService');
 
-			$this->registerRouteMiddleware(array(
-				'api.jwt' => \Kosmosx\Auth\Middleware\JwtMiddleware::class,
-				'api.auth' => \Kosmosx\Auth\Middleware\AuthenticateMiddleware::class
-			));
+			$this->commands(\Kosmosx\Auth\Console\Commands\PublishConfig::class);
 		}
 	}
