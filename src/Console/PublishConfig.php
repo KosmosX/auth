@@ -12,14 +12,14 @@
 		 *
 		 * @var string
 		 */
-		protected $signature = 'kosmosx:config:auth {--force : Overwrite any existing files.}';
+		protected $signature = 'publish:kosmosx:auth {--force : Overwrite any existing files.}';
 
 		/**
 		 * The console command description.
 		 *
 		 * @var string
 		 */
-		protected $description = 'Publishes auth configuration file to config directory of app';
+		protected $description = 'Publishes auth configuration file into application config directory';
 
 		/**
 		 * Filesystem instance for fs operations

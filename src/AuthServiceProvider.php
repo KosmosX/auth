@@ -53,15 +53,15 @@
 
 			}
 
-			class_alias(\Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
-			class_alias(\Tymon\JWTAuth\Facades\JWTFactory::class, 'JWTFactory');
-			class_alias(\Kosmosx\Auth\AuthFacade::class, 'AuthService');
+			$this->app->alias(\Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
+			$this->app->alias(\Tymon\JWTAuth\Facades\JWTFactory::class, 'JWTFactory');
+			$this->app->alias(\Kosmosx\Auth\AuthFacade::class, 'AuthService');
 
 			if ($provider = config('auth.service_providers.jwt'))
 				$this->app->register($provider);
 
 			$this->app->bind('service.auth', 'Kosmosx\Auth\AuthService');
 
-			$this->commands(\Kosmosx\Auth\Console\Commands\PublishConfig::class);
+			$this->commands(\Kosmosx\Auth\Console\PublishConfig::class);
 		}
 	}
