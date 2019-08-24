@@ -9,25 +9,10 @@
 	{
 		public function boot()
 		{
-			$this->policies();
-			$this->define();
-		}
-
-		/**
-		 * Register Gate policy
-		 */
-		private function policies()
-		{
 			$policies = config('permission.policies') ?: array();
 			foreach ($policies as $key => $policy)
 				Gate::policy($key, $policy);
-		}
 
-		/**
-		 * Register Gate define
-		 */
-		private function define()
-		{
 			$defines = config('permission.defines') ?: array();
 			foreach ($defines as $key => $define)
 				Gate::define($key, $define);
@@ -40,25 +25,15 @@
 		 */
 		public function register()
 		{
-			try {
-				$this->app->configure('auth');
-				$this->app->configure('jwt');
-				$this->app->configure('permission');
+			$this->app->configure('auth');
+			$this->app->configure('jwt');
+			$this->app->configure('permission');
 
-				$this->app->routeMiddleware(array(
-					'api.jwt' => \Kosmosx\Auth\Middleware\JwtMiddleware::class,
-					'api.auth' => \Kosmosx\Auth\Middleware\AuthenticateMiddleware::class
-				));
-			} catch (\Exception $e) {
+			register_alias(\Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
+			register_alias(\Tymon\JWTAuth\Facades\JWTFactory::class, 'JWTFactory');
+			register_alias(\Kosmosx\Auth\AuthFacade::class, 'AuthService');
 
-			}
-
-			$this->app->alias(\Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
-			$this->app->alias(\Tymon\JWTAuth\Facades\JWTFactory::class, 'JWTFactory');
-			$this->app->alias(\Kosmosx\Auth\AuthFacade::class, 'AuthService');
-
-			if ($provider = config('auth.service_providers.jwt'))
-				$this->app->register($provider);
+			$this->app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 			$this->app->bind('service.auth', 'Kosmosx\Auth\AuthService');
 

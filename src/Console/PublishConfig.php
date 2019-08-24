@@ -1,6 +1,6 @@
 <?php
 
-	namespace Kosmosx\Auth\Console\Commands;
+	namespace Kosmosx\Auth\Console;
 
 	use Illuminate\Console\Command;
 	use Illuminate\Filesystem\Filesystem;
